@@ -1,0 +1,85 @@
+# backend/ai_agents/grok_client.py
+import os
+import requests
+import json
+import time
+from typing import List, Dict, Any
+
+class GrokClient:
+    def __init__(self):
+        self.api_key = os.getenv("GROK_API_KEY")
+        self.base_url = "https://api.x.ai/v1/chat/completions"  # Grok API endpoint
+        self.max_retries = 3
+    
+    def generate_response(self, prompt: str, system_message: str = None) -> str:
+        """Generate response using Grok API with retries"""
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+        
+        messages = []
+        if system_message:
+            messages.append({"role": "system", "content": system_message})
+        messages.append({"role": "user", "content": prompt})
+        
+        payload = {
+            "model": "grok-4-fast-reasoning",  # Grok model name
+            "messages": messages,
+            "temperature": 0.3,
+            "max_tokens": 2000,
+            "stream": False
+        }
+        
+        for attempt in range(self.max_retries):
+            try:
+                print(f"   🤖 Calling Grok API (attempt {attempt + 1})...")
+                response = requests.post(self.base_url, headers=headers, json=payload, timeout=30)
+                
+                if response.status_code == 200:
+                    result = response.json()
+                    return result["choices"][0]["message"]["content"]
+                else:
+                    print(f"   ❌ Grok API error: {response.status_code} - {response.text}")
+                    if attempt < self.max_retries - 1:
+                        time.sleep(2)  # Wait before retry
+                        
+            except requests.exceptions.RequestException as e:
+                print(f"   ❌ Request error: {e}")
+                if attempt < self.max_retries - 1:
+                    time.sleep(2)
+            except Exception as e:
+                print(f"   ❌ Unexpected error: {e}")
+                break
+        
+        return None
+    
+    def extract_quotes(self, paper_content: str, query: str) -> List[str]:
+        """Extract relevant quotes using Grok"""
+        prompt = f"""
+        Extract 1-3 most relevant quotes from this research paper that address: "{query}"
+        
+        PAPER CONTENT:
+        {paper_content[:3000]}
+        
+        Return ONLY a JSON array of quote strings. Example:
+        ["First relevant quote...", "Second relevant quote..."]
+        """
+        
+        response = self.generate_response(prompt)
+        if response:
+            try:
+                # Clean the response first
+                cleaned_response = response.strip()
+                if cleaned_response.startswith('```json'):
+                    cleaned_response = cleaned_response[7:]
+                if cleaned_response.endswith('```'):
+                    cleaned_response = cleaned_response[:-3]
+                cleaned_response = cleaned_response.strip()
+                
+                return json.loads(cleaned_response)
+            except json.JSONDecodeError as e:
+                print(f"   ❌ JSON parse error: {e}")
+                print(f"   Raw response: {response}")
+        
+        return []
