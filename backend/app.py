@@ -71,6 +71,7 @@ def create_app() -> Flask:
     from api.routes.paper_routes import paper_bp
     from api.routes.recommendation_routes import rec_bp
     from api.routes.trend_routes import trend_bp
+    from api.routes.chat_routes import chat_bp  # NEW: Conversational interface
 
     # ✅ FIXED: Register with correct URL prefixes
     app.register_blueprint(citation_bp, url_prefix="/api/citations")
@@ -79,6 +80,7 @@ def create_app() -> Flask:
     app.register_blueprint(paper_bp, url_prefix="/api/papers")
     app.register_blueprint(rec_bp, url_prefix="/api/recommendations")
     app.register_blueprint(trend_bp, url_prefix="/api/trends")
+    app.register_blueprint(chat_bp, url_prefix="/api")  # NEW: /api/chat
 
     @app.route("/api/health", methods=["GET"])
     def health():

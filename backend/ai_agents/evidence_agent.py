@@ -1,60 +1,120 @@
-
-
 # backend/ai_agents/evidence_agent.py
 import numpy as np
+import asyncio
+import hashlib
 from typing import List, Dict, Any
 from sqlalchemy.orm import Session
 from core.database import SessionLocal
 from api.models.database_models import Paper
 from knowledge_graph.graph_builder import KnowledgeGraphBuilder
+from core.cache import cache_manager
 
-from .grok_client import GrokClient  # Changed from DeepSeekClient
+from .grok_client import GrokClient
 
 class EvidenceAgent:
     def __init__(self):
         self.kg_builder = KnowledgeGraphBuilder()
         self.db = SessionLocal()
         self.grok = GrokClient()  # Changed from DeepSeekClient
+        self.cache = cache_manager
 
 
 
     
-    def find_evidence(self, query: str, limit: int = 10) -> List[Dict[str, Any]]:
-        """Find supporting evidence for research claims"""
+    async def find_evidence(self, query: str, limit: int = 10) -> List[Dict[str, Any]]:
+        """Find supporting evidence for research claims (async with parallel processing + caching)"""
         print(f"🔍 Finding evidence for: {query}")
         
-        # Step 1: Semantic search using embeddings
-        similar_papers = self._semantic_search(query, limit)
+        # Check cache first
+        cache_key = f"evidence:{hashlib.md5(f'{query}:{limit}'.encode()).hexdigest()}"
+        cached_result = self.cache.get_cached(cache_key)
+        if cached_result:
+            return cached_result
+        
+        # Step 1: Semantic search using embeddings (async DB query)
+        similar_papers = await self._semantic_search(query, limit)
         print(f"   Found {len(similar_papers)} relevant papers")
         
-        # Step 2: Extract relevant quotes using DeepSeek
+        # Step 2: Extract relevant quotes using Grok - PARALLEL PROCESSING
+        print(f"   Processing {len(similar_papers)} papers in parallel...")
+        
+        # Create tasks for parallel processing
+        tasks = [
+            self._process_paper_for_evidence(paper, query) 
+            for paper in similar_papers
+        ]
+        
+        # Execute all tasks concurrently
+        evidence_results = await asyncio.gather(*tasks, return_exceptions=True)
+        
+        # Filter out None values and exceptions
         evidence_spans = []
-        for paper in similar_papers:
-            evidence = self._process_paper_for_evidence(paper, query)
-            if evidence:
-                evidence_spans.append(evidence)
+        for i, result in enumerate(evidence_results):
+            if isinstance(result, Exception):
+                print(f"   ⚠️ Error processing paper {i+1}: {result}")
+            elif result is not None:
+                evidence_spans.append(result)
+        
+        print(f"   Successfully processed {len(evidence_spans)} papers")
         
         # Step 3: Sort by relevance
         evidence_spans.sort(key=lambda x: x["relevance"], reverse=True)
+        final_result = evidence_spans[:limit]
         
-        return evidence_spans[:limit]
+        # Cache the result for 1 hour
+        self.cache.set_cached(cache_key, final_result, ttl=3600)
+        
+        return final_result
     
-    def _semantic_search(self, query: str, limit: int) -> List[Paper]:
-        """Find semantically similar papers using embeddings"""
-        # For now, we'll use a simple approach - later we can use vector DB
-        all_papers = self.db.query(Paper).all()
+    async def _semantic_search(self, query: str, limit: int) -> List[Paper]:
+        """Find semantically similar papers using vector embeddings"""
+        from ml_pipeline.embedding_service import EmbeddingService
+        from core.vector_search import vector_similarity_search
         
-        # Calculate query embedding (you might want to generate this properly)
-        # For now, we'll use title similarity as placeholder
+        # Use fresh DB session to avoid transaction issues
+        db = SessionLocal()
+        try:
+            # Generate query embedding
+            embedding_service = EmbeddingService()
+            try:
+                # Load model and encode asynchronously
+                # No need for new event loop since we are already in one
+                query_embedding = await embedding_service.encode_single(query)
+            except Exception as e:
+                print(f"   ⚠️ Embedding generation failed: {e}, falling back to keyword search")
+                return self._keyword_search_fallback(query, limit, db)
+            
+            # Vector similarity search with fresh DB session
+            results = vector_similarity_search(db, query_embedding.tolist(), limit=limit)
+            
+            # If no results, fallback
+            if not results:
+                print("   No vector results, trying fallback...")
+                return self._keyword_search_fallback(query, limit, db)
+                
+            # Extract papers from (paper, score) tuples
+            papers = [paper for paper, score in results]
+            print(f"   ✅ Vector search: found {len(papers)} papers (scores: {[f'{s:.2f}' for _, s in results[:3]]})")
+            return papers
+        except Exception as e:
+            print(f"   ❌ Semantic search error: {e}")
+            db.rollback()  # Important: rollback on error
+            return self._keyword_search_fallback(query, limit, db)
+        finally:
+            db.close()  # Always close the session
+    
+    def _keyword_search_fallback(self, query: str, limit: int, db: Session) -> List[Paper]:
+        """Fallback to keyword search if vector search fails"""
+        print(f"   🔍 Using keyword search fallback")
+        all_papers = db.query(Paper).all()  # Use passed db session
         query_lower = query.lower()
         
         scored_papers = []
         for paper in all_papers:
             score = self._calculate_similarity_score(paper, query_lower)
-            if score > 0.1:  # Threshold
+            if score > 0.1:
                 scored_papers.append((paper, score))
         
-        # Sort by similarity score
         scored_papers.sort(key=lambda x: x[1], reverse=True)
         return [paper for paper, score in scored_papers[:limit]]
     
@@ -81,11 +141,11 @@ class EvidenceAgent:
         intersection = query_words.intersection(text_words)
         return len(intersection) / len(query_words)
     
-    def _process_paper_for_evidence(self, paper: Paper, query: str) -> Dict[str, Any]:
-        """Process a single paper to extract evidence"""
-        # Extract relevant quotes using DeepSeek
+    async def _process_paper_for_evidence(self, paper: Paper, query: str) -> Dict[str, Any]:
+        """Process a single paper to extract evidence (async)"""
+        # Extract relevant quotes using Grok API (async)
         paper_content = f"Title: {paper.title}\nAbstract: {paper.abstract}"
-        quotes = self.grok.extract_quotes(paper_content, query)  # Fixed: changed self.deepseek to self.grok
+        quotes = await self.grok.extract_quotes(paper_content, query)
         
         if not quotes:
             return None

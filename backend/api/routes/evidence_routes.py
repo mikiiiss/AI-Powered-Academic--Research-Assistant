@@ -1,5 +1,6 @@
 # backend/api/routes/evidence_routes.py
 from flask import Blueprint, request, jsonify
+import asyncio
 from ai_agents.evidence_agent import EvidenceAgent
 
 evidence_bp = Blueprint('evidence', __name__)
@@ -15,7 +16,8 @@ def find_evidence():
     
     agent = EvidenceAgent()
     try:
-        evidence = agent.find_evidence(query, limit)
+        # Run async method in sync context
+        evidence = asyncio.run(agent.find_evidence(query, limit))
         return jsonify({
             "query": query,
             "evidence": evidence,

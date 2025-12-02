@@ -61,6 +61,22 @@ export class ResearchAssistantAPI {
     });
     return data;
   }
+
+  // NEW: Conversational chat interface
+  async chat(query, sessionId = null) {
+    const data = await this.makeRequest('/chat', {
+      method: 'POST',
+      body: JSON.stringify({
+        query,
+        session_id: sessionId
+      }),
+    });
+    return data;
+  }
+
+  async getChatHistory(sessionId) {
+    return await this.makeRequest(`/chat/history/${sessionId}`);
+  }
 }
 
 export const researchAPI = new ResearchAssistantAPI();

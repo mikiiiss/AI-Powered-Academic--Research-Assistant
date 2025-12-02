@@ -1,11 +1,13 @@
 # backend/ai_agents/gap_detection_agent.py
 import numpy as np
 import json
+import hashlib
 from typing import List, Dict, Any
 from sqlalchemy.orm import Session
 from core.database import SessionLocal
 from api.models.database_models import Paper, PaperRelationship
 from knowledge_graph.graph_builder import KnowledgeGraphBuilder
+from core.cache import cache_manager
 from .grok_client import GrokClient
 
 class GapDetectionAgent:
@@ -13,10 +15,17 @@ class GapDetectionAgent:
         self.kg_builder = KnowledgeGraphBuilder()
         self.db = SessionLocal()
         self.grok = GrokClient()
+        self.cache = cache_manager
     
     def detect_research_gaps(self, query: str, max_gaps: int = 5) -> List[Dict[str, Any]]:
-        """Detect research gaps using multiple analysis strategies"""
+        """Detect research gaps using multiple analysis strategies (with caching)"""
         print(f"🎯 Detecting research gaps for: {query}")
+        
+        # Check cache first
+        cache_key = f"gaps:{hashlib.md5(f'{query}:{max_gaps}'.encode()).hexdigest()}"
+        cached_result = self.cache.get_cached(cache_key)
+        if cached_result:
+            return cached_result
         
         # Get relevant papers for the query
         relevant_papers = self._get_relevant_papers(query)
@@ -46,21 +55,31 @@ class GapDetectionAgent:
         unique_gaps.sort(key=lambda x: x["confidence"], reverse=True)
         
         print(f"   📊 Total unique gaps found: {len(unique_gaps)}")
-        return unique_gaps[:max_gaps]
+        final_result = unique_gaps[:max_gaps]
+        
+        # Cache the result for 2 hours
+        self.cache.set_cached(cache_key, final_result, ttl=7200)
+        
+        return final_result
     
     def _get_relevant_papers(self, query: str, limit: int = 20) -> List[Paper]:
         """Get papers relevant to the query"""
-        # Use simple keyword matching for now - can enhance with embeddings
-        all_papers = self.db.query(Paper).all()
-        
-        scored_papers = []
-        for paper in all_papers:
-            score = self._calculate_query_relevance(paper, query)
-            if score > 0.1:
-                scored_papers.append((paper, score))
-        
-        scored_papers.sort(key=lambda x: x[1], reverse=True)
-        return [paper for paper, score in scored_papers[:limit]]
+        # Use fresh DB session
+        db = SessionLocal()
+        try:
+            # Use simple keyword matching for now - can enhance with embeddings
+            all_papers = db.query(Paper).all()
+            
+            scored_papers = []
+            for paper in all_papers:
+                score = self._calculate_query_relevance(paper, query)
+                if score > 0.1:
+                    scored_papers.append((paper, score))
+            
+            scored_papers.sort(key=lambda x: x[1], reverse=True)
+            return [paper for paper, score in scored_papers[:limit]]
+        finally:
+            db.close()
     
     def _calculate_query_relevance(self, paper: Paper, query: str) -> float:
         """Calculate relevance between paper and query"""

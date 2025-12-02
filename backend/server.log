@@ -1,0 +1,326 @@
+nohup: ignoring input
+🚀 Starting Research Assistant API on http://localhost:5000
+✅ Redis cache connected
+ * Serving Flask app 'app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://localhost:5000
+Press CTRL+C to quit
+ * Restarting with watchdog (inotify)
+ * Debugger is active!
+ * Debugger PIN: 134-638-972
+127.0.0.1 - - [01/Dec/2025 16:04:53] "POST /api/chat/stream HTTP/1.1" 200 -
+Debugging middleware caught exception in streamed response at a point where response headers were already sent.
+Traceback (most recent call last):
+  File "/home/miki/.local/lib/python3.8/site-packages/werkzeug/wsgi.py", line 289, in __next__
+    return self._next()
+  File "/home/miki/.local/lib/python3.8/site-packages/werkzeug/wrappers/response.py", line 32, in _iter_encoded
+    for item in iterable:
+  File "/home/miki/Summer_projects/New folder (20)/backend/api/routes/chat_routes.py", line 112, in generate
+    chunk = loop.run_until_complete(gen.__anext__())
+  File "/usr/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "/home/miki/Summer_projects/New folder (20)/backend/api/routes/chat_routes.py", line 103, in run_stream
+    async for event in orch.process_query_stream(query, session_id):
+  File "/home/miki/Summer_projects/New folder (20)/backend/orchestration/orchestrator_agent.py", line 173, in process_query_stream
+    intent = await self._analyze_intent(query, context)
+  File "/home/miki/Summer_projects/New folder (20)/backend/orchestration/orchestrator_agent.py", line 275, in _analyze_intent
+    recent_messages = context.get_recent_messages(3)
+AttributeError: 'NoneType' object has no attribute 'get_recent_messages'
+127.0.0.1 - - [01/Dec/2025 16:05:56] "OPTIONS /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [01/Dec/2025 16:05:56] "POST /api/chat/stream HTTP/1.1" 200 -
+Debugging middleware caught exception in streamed response at a point where response headers were already sent.
+Traceback (most recent call last):
+  File "/home/miki/.local/lib/python3.8/site-packages/werkzeug/wsgi.py", line 289, in __next__
+    return self._next()
+  File "/home/miki/.local/lib/python3.8/site-packages/werkzeug/wrappers/response.py", line 32, in _iter_encoded
+    for item in iterable:
+  File "/home/miki/Summer_projects/New folder (20)/backend/api/routes/chat_routes.py", line 112, in generate
+    chunk = loop.run_until_complete(gen.__anext__())
+  File "/usr/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "/home/miki/Summer_projects/New folder (20)/backend/api/routes/chat_routes.py", line 103, in run_stream
+    async for event in orch.process_query_stream(query, session_id):
+  File "/home/miki/Summer_projects/New folder (20)/backend/orchestration/orchestrator_agent.py", line 215, in process_query_stream
+    is_sufficient, reason = self.sufficiency_checker.check(query, tool_results)
+AttributeError: 'SufficiencyChecker' object has no attribute 'check'
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/__main__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/__main__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/__main__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/cli.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/cli.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/cli.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/config.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/config.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/config.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/documentor.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/documentor.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/documentor.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/exceptions.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/exceptions.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/exceptions.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/factory.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/factory.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/factory.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/generator.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/generator.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/generator.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/proxy.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/proxy.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/proxy.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/typing.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/typing.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/typing.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/contrib/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/contrib/pytest/plugin.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/contrib/pytest/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/decode/codes.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/decode/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/decode/codes.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/decode/codes.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/da_DK/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/cs_CZ/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/az_AZ/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/bn_BD/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/da_DK/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/da_DK/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/de/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/de_AT/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/de_CH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/de_DE/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/el_GR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_AU/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_BD/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_BD/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_BD/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_CA/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_GB/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_IE/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_IE/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_IE/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_IN/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_MS/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_NZ/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_NZ/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_NZ/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_PH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/en_US/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/es/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/es_AR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/es_CL/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/es_CO/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/es_ES/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/es_MX/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/fa_IR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/fi_FI/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/fil_PH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/fr_CA/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/fr_CH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/fr_FR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/he_IL/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/hi_IN/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/hr_HR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/hu_HU/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/hy_AM/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/id_ID/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/it_IT/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/ja_JP/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/ka_GE/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/ko_KR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/ne_NP/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/nl_BE/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/nl_NL/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/no_NO/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/pl_PL/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/pt_BR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/pt_PT/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/ro_RO/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/ru_RU/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/sk_SK/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/sl_SI/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/sv_SE/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/ta_IN/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/th/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/th_TH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/tl_PH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/uk_UA/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/vi_VN/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/zh_CN/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/zh_TW/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/address/zu_ZA/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/da_DK/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/en_CA/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/ar_JO/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/en_NZ/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/de_CH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/ar_BH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/az_AZ/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/el_GR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/de_DE/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/bn_BD/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/ar_PS/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/en_GB/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/en_PH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/es_AR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/ar_SA/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/de_AT/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/en_US/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/es_CL/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/es_CO/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/es_ES/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/et_EE/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/fi_FI/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/fil_PH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/fr_FR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/he_IL/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/hu_HU/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/id_ID/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/it_IT/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/lt_LT/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/nl_BE/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/nl_NL/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/no_NO/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/pl_PL/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/pt_BR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/pt_PT/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/ro_RO/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/ru_RU/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/sk_SK/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/sq_AL/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/sv_SE/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/th_TH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/tl_PH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/tr_TR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/uk_UA/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/vi_VN/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/zh_CN/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/automotive/zh_TW/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/da_DK/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/de_CH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/cs_CZ/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/az_AZ/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/el_GR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/de_DE/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/bn_BD/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/de_AT/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/el_GR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/el_GR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/en_GB/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/en_IE/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/en_IN/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/en_PH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/es_AR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/es_ES/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/es_MX/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/fa_IR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/fi_FI/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/fil_PH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/fr_CH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/fr_FR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/it_CH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/it_IT/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/nl_BE/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/nl_NL/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/no_NO/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/pl_PL/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/pt_PT/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/ro_RO/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/ru_RU/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/sk_SK/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/th_TH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/tl_PH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/tr_TR/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/uk_UA/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/bank/zh_CN/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/barcode/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/barcode/en_CA/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/barcode/fr_CA/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/barcode/es_ES/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/barcode/ja_JP/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/barcode/en_US/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/color/color.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/color/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/color/az_AZ/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/color/ar_PS/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/color/bg_BG/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/color/bn_BD/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/color/cs_CZ/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/color/da_DK/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/color/de/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/color/de_AT/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/color/de_CH/__init__.py', reloading
+ * Detected change in '/home/miki/.local/lib/python3.8/site-packages/faker/providers/color/de_DE/__init__.py', reloading
+🚀 Starting Research Assistant API on http://localhost:5000
+✅ Redis cache connected
+✅ ToolRouter initialized
+   - Evidence Agent (vector search)
+   - Intelligent Gap Detector (coming next)
+📝 ResponseSynthesizer initialized (style: INLINE)
+✅ MCPRouter initialized with 3 clients + fallback
+🚀 OrchestratorAgent initialized
+   - Grok AI for intent analysis
+   - Conversation memory (Redis)
+   - Tool router (vector, gap, evidence)
+   - Response synthesizer (citations + NLG)
+   - MCP smart routing (arXiv, PubMed, Semantic Scholar)
+✅ Created conversation session: d3e21f62-0883-4a4d-b433-d65c6dbcffe1
+   ❌ Cache MISS for key: conversation:d3e21f62-0883-4a4d-b433-d65c6dbcffe1...
+⚠️ Session not found: d3e21f62-0883-4a4d-b433-d65c6dbcffe1
+✅ Created conversation session: 32f0fe08-0cb8-4d85-ac08-74f95df6f035
+   ❌ Cache MISS for key: conversation:32f0fe08-0cb8-4d85-ac08-74f95df6f035...
+⚠️ Session not found: 32f0fe08-0cb8-4d85-ac08-74f95df6f035
+   ⚡ Quick intent detected: search (skipped Grok)
+   🚀 Running Fast Vector Search + Gap Detection
+   🧠 Using IntelligentGapDetector (Grok-powered) + Vector Search
+🧠 IntelligentGapDetector initialized
+🧠 IntelligentGapDetector initialized
+
+🔍 Detecting research gaps for: 'what is transformer architecture'
+   Using intelligent multi-strategy analysis...
+   📚 Analyzing 20 relevant papers
+   🎯 Strategy 1: Semantic synthesis...
+   🤖 Calling Grok API (attempt 1)...
+
+🔍 Detecting research gaps for: 'what is transformer architecture'
+   Using intelligent multi-strategy analysis...
+   📚 Analyzing 20 relevant papers
+   🎯 Strategy 1: Semantic synthesis...
+   🤖 Calling Grok API (attempt 1)...
+🔍 Finding evidence for: what is transformer architecture
+   ❌ Cache MISS for key: evidence:123bb3c6c11769aabc65b11b9f10dd93...
+   ✅ Vector search: found 10 papers (scores: ['0.53', '0.50', '0.48'])
+   Found 10 relevant papers
+   Processing 10 papers in parallel...
+   🤖 Calling Grok API (attempt 1)...
+   🤖 Calling Grok API (attempt 1)...
+   🤖 Calling Grok API (attempt 1)...
+   🤖 Calling Grok API (attempt 1)...
+   🤖 Calling Grok API (attempt 1)...
+   🤖 Calling Grok API (attempt 1)...
+   🤖 Calling Grok API (attempt 1)...
+   🤖 Calling Grok API (attempt 1)...
+   🤖 Calling Grok API (attempt 1)...
+   🤖 Calling Grok API (attempt 1)...
+   ❌ Timeout error
+   ❌ Timeout error
+   🤖 Calling Grok API (attempt 2)...
+   🤖 Calling Grok API (attempt 2)...
+   Successfully processed 9 papers
+   💾 Cached for 3600s: evidence:123bb3c6c11769aabc65b11b9f10dd93...
+   🎯 Strategy 4: Temporal analysis...
+   ✅ Detected 3 unique gaps
+   ✅ Found 10 papers
+   ✅ Found 3 gaps
+❌ Tool execution error: 'list' object has no attribute 'to_dict'
+   🎯 Strategy 4: Temporal analysis...
+   ✅ Detected 3 unique gaps
+❌ Tool execution error: 'list' object has no attribute 'to_dict'
+ * Restarting with watchdog (inotify)
+ * Debugger is active!
+ * Debugger PIN: 134-638-972
